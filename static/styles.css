@@ -1,0 +1,21 @@
+.top-menu {
+  width : 100%;
+  height : 50px;
+  background-color: beige;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-col-1 {
+
+}
+
+.menu-col-2 {
+
+}
+
+.menu-col-3 {
+
+}
