@@ -6,10 +6,11 @@
     <title>{{tool.name}}</title>
   </head>
   <body>
+    <p><a href="{{url_for('showHomePage')}}">Home</a>/<a href="{{url_for('showBrandPage', brand_id = brand.id)}}">{{brand.name}}</a>/{{tool.name}}</p>
     <h1>{{tool.name}}</h1>
     <p>{{tool.description}}</p>
     <p>{{tool.price}}</p>
-    <a href="#">Edit</a>
+    <a href="{{url_for('editTool', brand_id = brand.id, tool_id = tool.id)}}">Edit</a>
     <a href="{{url_for('deleteTool', brand_id = brand.id, tool_id = tool.id )}}">Delete</a>
   </body>
 </html>

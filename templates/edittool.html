@@ -3,24 +3,22 @@
   <head>
     <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
     <meta charset="utf-8">
-    <title>Create New Tool</title>
+    <title>Edit Tool</title>
   </head>
   <body>
-    {% include 'header.html' %}
-    <h2>Create Tool</h2>
-    <form class="create-brand-form" action="#" method="post">
+    <form action="#" method="post">
       <label for="name">Name: </label>
-      <input type="text" name="name" placeholder="Tool Name" maxlength="100">
+      <input type="text" name="name" value="{{tool.name}}" maxlength="100">
       <label for="description">Description: </label>
-      <input type="text" name="description" placeholder="Tool Description">
+      <input type="text" name="description" value="{{tool.description}}">
       <label for="type">Type: </label>
       <select name="type">
         <option value="Hand Tools">Hand Tool</option>
         <option value="Power Tools">Power Tool</option>
       </select>
       <label for="price">Price: </label>
-      <input type="text" name="price" placeholder="1.99">
-      <button type="submit" name="button">Create New Tool</button>
+      <input type="text" name="price" value="{{tool.price}}">
+      <button type="submit" name="button">Submit Changes</button>
     </form>
   </body>
 </html>

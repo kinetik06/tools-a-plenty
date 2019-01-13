@@ -7,7 +7,7 @@
   </head>
   <body>
     {% include "header.html" %}
-
+<a href="{{url_for('showHomePage')}}">Home</a>
     <h1>{{brand.name}}</h1>
     <br>
     <h2>Hand Tools</h2>
@@ -28,7 +28,9 @@
       {% if tool.type == 'Power Tools'%}
 
         <br>
+        <a href="{{url_for('viewTool', brand_id = brand.id, tool_id = tool.id)}}">
         <h3>{{tool.name}}</h3>
+        </a>
         <p>{{tool.description}}</p>
         <br>
       {% endif %}

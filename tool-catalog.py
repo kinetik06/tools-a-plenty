@@ -68,6 +68,25 @@ def viewTool(brand_id, tool_id):
     tool = session.query(Tool).filter_by(id = tool_id).one()
     return render_template('tooldetails.html', brand = brand, tool = tool)
 
+@app.route('/brands/<int:brand_id>/tools/<int:tool_id>/edit', methods = ['GET', 'POST'])
+def editTool(brand_id, tool_id):
+    brand = session.query(Brand).filter_by(id=brand_id).one()
+    tool = session.query(Tool).filter_by(id=tool_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            tool.name = request.form['name']
+        if request.form['description']:
+            tool.description = request.form['description']
+        if request.form['type']:
+            tool.type = request.form['type']
+        if request.form['price']:
+            tool.price = request.form['price']
+        session.add(tool)
+        session.commit()
+        return redirect(url_for('viewTool', brand_id = brand_id, tool_id = tool_id))
+    else:
+        return render_template('edittool.html', brand = brand, tool = tool)
+
 
 
 if __name__ == '__main__':
