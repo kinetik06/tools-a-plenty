@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
+    <title>{{brand.name}}</title>
+  </head>
+  <body>
+    {% include "header.html" %}
+    <h1>{{brand.name}}</h1>
+    <br>
+    <h2>Hand Tools</h2>
+    {% for tool in tools %}
+    {% if tool.type == 'Hand Tools'%}
+
+      <br>
+      <h3>{{tool.name}}</h3>
+      <p>{{tool.description}}</p>
+      <br>
+      {% endif %}
+      {% endfor %}
+
+    <h2>Power Tools</h2>
+      {% for tool in tools %}
+      {% if tool.type == 'Power Tools'%}
+
+        <br>
+        <h3>{{tool.name}}</h3>
+        <p>{{tool.description}}</p>
+        <br>
+      {% endif %}
+      {% endfor %}
+  </body>
+</html>
