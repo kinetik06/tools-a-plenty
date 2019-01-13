@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
+    <meta charset="utf-8">
+    <title>Create New Brand</title>
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <h2>Create Brand</h2>
+    <form class="create-brand-form" action="#" method="post">
+      <label for="name">Name: </label>
+      <input type="text" name="name" placeholder="Brand Name" maxlength="100">
+      <label for="description">Description: </label>
+      <input type="text" name="description" placeholder="Brand Description">
+      <button type="submit" name="button">Create New Brand</button>
+    </form>
+  </body>
+</html>

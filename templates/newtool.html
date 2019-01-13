@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
+    <meta charset="utf-8">
+    <title>Create New Tool</title>
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <h2>Create Tool</h2>
+    <form class="create-brand-form" action="#" method="post">
+      <label for="name">Name: </label>
+      <input type="text" name="name" placeholder="Tool Name" maxlength="100">
+      <label for="description">Description: </label>
+      <input type="text" name="description" placeholder="Tool Description">
+      <label for="type">Type: </label>
+      <input type="text" name="type" placeholder="Tool Type">
+      <label for="price">Price: </label>
+      <input type="text" name="price" placeholder="1.99">
+      <button type="submit" name="button">Create New Tool</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
+    <meta charset="utf-8">
+    <title>{{tool.name}}</title>
+  </head>
+  <body>
+    <h1>{{tool.name}}</h1>
+    <p>{{tool.description}}</p>
+    <p>{{tool.price}}</p>
+    <a href="#">Edit</a>
+    <a href="{{url_for('deleteTool', brand_id = brand.id, tool_id = tool.id )}}">Delete</a>
+  </body>
+</html>
