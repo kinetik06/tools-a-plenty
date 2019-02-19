@@ -1,0 +1,55 @@
+body {
+	background-color: #ffc09f;
+	color:#4e6f8c;
+	text-align:center;
+	font-size: 16px;
+}
+
+p{
+	font-size:120%;
+}
+
+h1{
+	font-size:250%;
+}
+
+h2{
+	font-size:175%;
+
+}
+
+.body-container {
+	margin:auto;
+	width:75%;
+}
+
+.heart {
+  background-color: red;
+  display: inline-block;
+  height: 30px;
+  margin: 0 10px;
+  position: relative;
+  top: 0;
+  transform: rotate(-45deg);
+  width: 30px;
+}
+
+.heart:before,
+.heart:after {
+  content: "";
+  background-color: red;
+  border-radius: 50%;
+  height: 30px;
+  position: absolute;
+  width: 30px;
+}
+
+.heart:before {
+  top: -15px;
+  left: 0;
+}
+
+.heart:after {
+  left: 15px;
+  top: 0;
+}
