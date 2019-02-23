@@ -48,6 +48,8 @@ def showBrandPage(brand_id):
         user=login_session['username'])
 @app.route('/brands/create-brand', methods=['GET', 'POST'])
 def newBrand():
+    if 'username' not in login_session:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         newBrand = Brand(name = request.form['name'], description = request.form['description'])
         session.add(newBrand)
@@ -58,6 +60,8 @@ def newBrand():
 
 @app.route('/brands/<int:brand_id>/newtool', methods=['GET', 'POST'])
 def newTool(brand_id):
+    if 'username' not in login_session:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         newTool = Tool(name = request.form['name'], description = request.form['description'], price = request.form['price'],
             type = request.form['type'], brand_id = brand_id)
@@ -69,6 +73,8 @@ def newTool(brand_id):
 
 @app.route('/brands/<int:brand_id>/tools/<int:tool_id>/delete', methods=['GET', 'POST'])
 def deleteTool(brand_id, tool_id):
+    if 'username' not in login_session:
+        return redirect(url_for('login'))
     brand = session.query(Brand).filter_by(id=brand_id).one()
     tool = session.query(Tool).filter_by(id=tool_id).one()
     if request.method == 'POST':
@@ -91,6 +97,8 @@ def viewTool(brand_id, tool_id):
 
 @app.route('/brands/<int:brand_id>/tools/<int:tool_id>/edit', methods = ['GET', 'POST'])
 def editTool(brand_id, tool_id):
+    if 'username' not in login_session:
+        return redirect(url_for('login'))
     brand = session.query(Brand).filter_by(id=brand_id).one()
     tool = session.query(Tool).filter_by(id=tool_id).one()
     if request.method == 'POST':
