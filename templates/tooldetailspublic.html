@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
+    <meta charset="utf-8">
+    <title>{{tool.name}}</title>
+  </head>
+  <body>
+    {% include "header.html" %}
+    <p><a href="{{url_for('showHomePage')}}">Home</a>/<a href="{{url_for('showBrandPage', brand_id = brand.id)}}">{{brand.name}}</a>/{{tool.name}}</p>
+    <h1>{{tool.name}}</h1>
+    <p>{{tool.description}}</p>
+    <p>{{tool.price}}</p>
+  </body>
+</html>

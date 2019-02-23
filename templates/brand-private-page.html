@@ -35,5 +35,8 @@
         <br>
       {% endif %}
       {% endfor %}
+      <a href="{{url_for('newTool', brand_id = brand.id)}}">
+        <h2>Create new tool</h2>
+      </a>
   </body>
 </html>

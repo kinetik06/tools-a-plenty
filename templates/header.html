@@ -6,6 +6,11 @@
     <h1>Tools Catalog</h1>
   </div>
   <div class="menu-col-3">
-    <a href="{{url_for('login')}}">Login</a>
+    {% if user%}
+        Welcome {{user}}! <a href="{{url_for('disconnect')}}"> Logout</a>
+    {% else %}
+        <a href="{{url_for('login')}}">Login</a>
+    {% endif %}            
+    
   </div>
 </div>

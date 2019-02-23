@@ -26,20 +26,26 @@ CLIENT_SECRET = '6121ea4c40ab6811219ae26e75c647facb57bc30ba1257bb14db47209778551
 @app.route('/brands')
 def showHomePage():
     brands = session.query(Brand).all()
-    print('these are the brands: ')
-    print (brands)
-    return render_template('tools-catalog-home.html', brands=brands)
+    if 'username' not in login_session:
+        return render_template('tools-catalog-public.html', brands=brands) 
+    else:
+        return render_template('tools-catalog-home.html', brands=brands, 
+        user=login_session['username'])
 
 @app.route('/brands/<int:brand_id>')
 def showBrandPage(brand_id):
     brand = session.query(Brand).filter_by(id=brand_id).one()
     tools = session.query(Tool).filter_by(brand_id=brand_id).all()
-    print ('Brand: ')
-    print (brand.id)
-    print ('these are the tools')
-    print (tools)
-    return render_template('brand-public-page.html', brand=brand, tools=tools)
 
+    if 'username' not in login_session:
+        print ('Brand: ')
+        print (brand.id)
+        print ('these are the tools')
+        print (tools)
+        return render_template('brand-public-page.html', brand=brand, tools=tools)
+    else:
+        return render_template('brand-private-page.html', brand=brand, tools=tools, 
+        user=login_session['username'])
 @app.route('/brands/create-brand', methods=['GET', 'POST'])
 def newBrand():
     if request.method == 'POST':
@@ -48,7 +54,7 @@ def newBrand():
         session.commit()
         return redirect(url_for('showHomePage'))
     else:
-        return render_template('newbrand.html')
+        return render_template('newbrand.html', user=login_session['username'])
 
 @app.route('/brands/<int:brand_id>/newtool', methods=['GET', 'POST'])
 def newTool(brand_id):
@@ -59,7 +65,7 @@ def newTool(brand_id):
         session.commit()
         return redirect(url_for('showBrandPage', brand_id = brand_id))
     else:
-        return render_template('newtool.html', brand_id = brand_id)
+        return render_template('newtool.html', brand_id = brand_id, user=login_session['username'])
 
 @app.route('/brands/<int:brand_id>/tools/<int:tool_id>/delete', methods=['GET', 'POST'])
 def deleteTool(brand_id, tool_id):
@@ -70,13 +76,18 @@ def deleteTool(brand_id, tool_id):
         session.commit()
         return redirect(url_for('showBrandPage', brand_id=brand_id))
     else:
-        return render_template('deletetool.html', brand = brand,  tool = tool)
+        return render_template('deletetool.html', brand = brand,  tool = tool, 
+        user=login_session['username'])
 
 @app.route('/brands/<int:brand_id>/tools/<int:tool_id>')
 def viewTool(brand_id, tool_id):
     brand = session.query(Brand).filter_by(id=brand_id).one()
     tool = session.query(Tool).filter_by(id = tool_id).one()
-    return render_template('tooldetails.html', brand = brand, tool = tool)
+    if 'username' not in login_session:
+        return render_template('tooldetailspublic.html', brand = brand, tool = tool)
+    else:
+        return render_template('tooldetails.html', brand = brand, tool = tool, user = 
+        login_session['username']) 
 
 @app.route('/brands/<int:brand_id>/tools/<int:tool_id>/edit', methods = ['GET', 'POST'])
 def editTool(brand_id, tool_id):
@@ -93,9 +104,11 @@ def editTool(brand_id, tool_id):
             tool.price = request.form['price']
         session.add(tool)
         session.commit()
-        return redirect(url_for('viewTool', brand_id = brand_id, tool_id = tool_id))
+        return redirect(url_for('viewTool', brand_id = brand_id, tool_id = tool_id, 
+        user=login_session['username']))
     else:
-        return render_template('edittool.html', brand = brand, tool = tool)
+        return render_template('edittool.html', brand = brand, tool = tool, 
+        user=login_session['username'])
 
 # @app.route('/login')
 # def login():
@@ -146,6 +159,19 @@ def amazonlogin():
     print profile_data
     name = profile_data["name"]
     email = profile_data["email"]
+    print email
+    login_session['username'] = profile_data['name']
+    login_session['email'] = profile_data['email']
+    login_session['provider'] = 'amazon'
+
+    #check database for user. If the user does not exist, create a new one
+    user_id = getUserID(email)
+    if not user_id:
+        print 'No user found, creating new one'
+        print login_session['username']
+        print login_session['email']
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
     print name
     print email
     return redirect(url_for('showHomePage'))
@@ -167,7 +193,33 @@ def amazonlogin():
     # print data["email"]
     # return redirect(url_for('showHomePage'))
 
+@app.route('/disconnect')
+def disconnect():
+    del login_session['username']
+    del login_session['email']
+    del login_session['provider']
+    return redirect(url_for('showHomePage'))
 
+# implement user creation and user lookup
+
+def createUser(login_session):
+    newUser = User(name = login_session['username'], email = login_session['email'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email = login_session['email']).one()
+    return user.id
+    
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id = user_id).one()
+    return user
+
+def getUserID(email):
+    try:
+        print email
+        user = session.query(User).filter_by(email = email).one()
+        return user.id
+    except:
+        return None
 
 if __name__ == '__main__':
     app.run()
