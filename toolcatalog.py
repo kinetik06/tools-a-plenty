@@ -36,8 +36,8 @@ def showHomePage():
 def showBrandPage(brand_id):
     brand = session.query(Brand).filter_by(id=brand_id).one()
     tools = session.query(Tool).filter_by(brand_id=brand_id).all()
-
-    if 'username' not in login_session:
+    creator = getUserInfo(brand.user_id)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
         print ('Brand: ')
         print (brand.id)
         print ('these are the tools')
@@ -51,7 +51,8 @@ def newBrand():
     if 'username' not in login_session:
         return redirect(url_for('login'))
     if request.method == 'POST':
-        newBrand = Brand(name = request.form['name'], description = request.form['description'])
+        newBrand = Brand(name = request.form['name'], description = request.form['description'], 
+        user_id = login_session['user_id'])
         session.add(newBrand)
         session.commit()
         return redirect(url_for('showHomePage'))
@@ -62,9 +63,10 @@ def newBrand():
 def newTool(brand_id):
     if 'username' not in login_session:
         return redirect(url_for('login'))
+
     if request.method == 'POST':
         newTool = Tool(name = request.form['name'], description = request.form['description'], price = request.form['price'],
-            type = request.form['type'], brand_id = brand_id)
+            type = request.form['type'], brand_id = brand_id, user_id = login_session['user_id'])
         session.add(newTool)
         session.commit()
         return redirect(url_for('showBrandPage', brand_id = brand_id))
@@ -89,7 +91,8 @@ def deleteTool(brand_id, tool_id):
 def viewTool(brand_id, tool_id):
     brand = session.query(Brand).filter_by(id=brand_id).one()
     tool = session.query(Tool).filter_by(id = tool_id).one()
-    if 'username' not in login_session:
+    creator = getUserInfo(brand.user_id) 
+    if 'username' not in login_session or creator.id != login_session['user_id']:
         return render_template('tooldetailspublic.html', brand = brand, tool = tool)
     else:
         return render_template('tooldetails.html', brand = brand, tool = tool, user = 
@@ -180,6 +183,7 @@ def amazonlogin():
         print login_session['email']
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
+    print user_id
     print name
     print email
     return redirect(url_for('showHomePage'))
