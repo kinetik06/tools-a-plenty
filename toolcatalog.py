@@ -22,6 +22,22 @@ session = DBSession()
 CLIENT_ID = 'amzn1.application-oa2-client.85ec9be03eac431ca601ede5c2fcbd4b'
 CLIENT_SECRET = '6121ea4c40ab6811219ae26e75c647facb57bc30ba1257bb14db47209778551e'
 
+@app.route('/brands/JSON')
+def brandsJSON():
+    brands = session.query(Brand).all()
+    return jsonify(Brands = [brand.serialize for brand in brands])
+
+@app.route('/brands/<int:brand_id>/tools/JSON')
+def brandToolsJSON(brand_id):
+    brand = session.query(Brand).filter_by(id = brand_id).one()
+    tools = session.query(Tool).filter_by(brand_id = brand.id).all()
+    return jsonify(Tools=[tool.serialize for tool in tools])
+
+@app.route('/brands/<int:brand_id>/tools/<int:tool_id>/JSON')
+def toolJSON(brand_id, tool_id):
+    tool = session.query(Tool).filter_by(id = tool_id).one()
+    return jsonify(Tool = tool.serialize)
+
 @app.route('/')
 @app.route('/brands')
 def showHomePage():
