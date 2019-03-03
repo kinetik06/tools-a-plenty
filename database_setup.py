@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = 'user'
 
@@ -12,6 +13,7 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
+
 
 class Brand(Base):
     __tablename__ = 'brand'
@@ -26,9 +28,10 @@ class Brand(Base):
     def serialize(self):
         return {
             'name': self.name,
-            'id' : self.id,
-            'decription' : self.description
+            'id': self.id,
+            'decription': self.description
         }
+
 
 class Tool(Base):
     __tablename__ = 'tool'
@@ -53,6 +56,7 @@ class Tool(Base):
             'type': self.type
         }
 
+
 engine = create_engine('sqlite:///toolcatalogwithusers.db')
 
-Base.metadata.create_all(engine)        
+Base.metadata.create_all(engine)
