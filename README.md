@@ -1,4 +1,7 @@
 Tools-A-Plenty Version 1.0
+URL: https://www.zombietechinc.com/toolsaplenty
+IP: 35.175.69.223
+SSH Port: 2200
 
 Setup Instructions:
 Acquire an AWS (Amazon Web Services) Lightsail Server. (https://lightsail.aws.amazon.com)
@@ -60,7 +63,12 @@ You will then be redirected to home page. (Create Brand should now be visible)
 Create your own brand. Click on brand, and create tools.
 'Logout' link should be in the top right header.
 
- 
+Third Party Resources Used:
+
+Flask
+SQLAlchemy
+Httplib2
+
 
     
             
