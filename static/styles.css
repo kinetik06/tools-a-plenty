@@ -19,3 +19,26 @@
 .menu-col-3 {
 
 }
+
+
+.container {
+    margin-top: .5rem;
+    display : grid;
+    width : 100%;
+    grid-template-columns : repeat(3, 1fr);
+    grid-template-rows : repeat(3, 200px);
+    grid-gap : .5rem;
+}
+
+.brand-container {
+    background-color: #b7d5d4;
+    border-radius: 5px;
+}
+
+.brand-name h3 {
+    color: #373e40;  
+}    
+
+.brand-name h3:hover {
+    color: #77878b
+}
